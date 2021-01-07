@@ -19,8 +19,7 @@ const checkRequestBody = (req, res, next) => {
   }
   let result = validationArray.every((key)=>{
     return req.body[key] && req.body[key].trim.length;
-
-  });
+});
   if(!result){
     return sendErrorMessage(
       new AppError(400,"Unsuccessful", "Invalid Request Body"),
@@ -30,27 +29,22 @@ const checkRequestBody = (req, res, next) => {
   }
   next();
 };
-
-
-
-
-isEmailUnique = (req,res,next)=>{
-  let findUser =
-}
-
-  const requiredProperties = ["userEmail", "userPassword"];
-  let result = requiredProperties.every((key) => {
-    return req.body[key];
+const isUserRegistered = (req, res, next) => {
+  let findUser = users.find((user) => {
+    return user.email == req.body.email;
   });
-  if (!result) {
-    sendErrorMessage(
-      new AppError(400, "unsuccessful", "request body is inavlid"),
+
+  if (!findUser) {
+    return sendErrorMessage(
+      new AppError(402, "Unsuccessful", "User not Registered"),
       req,
       res
     );
-  } else {
-    next();
-  };
+  }
+  req.currentUser = { ...findUser };
+  // req.test = "some value";
+  next();
+};
 const loginUser = async(req,res,next)=>{
   console.log("Recent User",req.recentUser.email);
   try{
@@ -87,22 +81,6 @@ const loginUser = async(req,res,next)=>{
     );
   }
 };
-//   const createUser = async (req, res, next) => {
-//   let { userEmail,userPassword } = req.body;
-//     let newUser = new User({
-//       LoginId: uniquid() + Date.now(),
-//       userEmail: userEmail.trim(),
-//       userPassword: userPassword.trim()
-
-//       });
-
-//     let user = await newUser.save();
-
-//     sendResponse(201, "Successful", user, req, res);
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-module.exports.verifyPostRequest = verifyPostRequest;
-
-  //get all users
+module.exports.checkRequestBody= checkRequestBody;
+module.exports.isUserRegistered= isUserRegistered;
+module.exports.loginUser= loginUser;

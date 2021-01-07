@@ -11,6 +11,7 @@ const {
 
 // Route definitions
 // route:"/employee/"
+userRoute.route("/login").post();
 userRoute.route("/signup").post(verifyPostRequest, createUser);
 
 // route : "/employee/:empid"
