@@ -100,27 +100,7 @@ const userSignupSchema = new mongoose.Schema({
       },
     ],
   },
-  confirmPassword: {
-    type: String,
-    required: [true, "Please enter Confirm Password"],
-    validate: [
-      {
-        validator: function () {
-          return this.lastName.trim().length;
-        },
-        message: "Confirm Password should not be empty",
-      },
-      {
-        validator: function () {
-          const re = /<("[^"]*?"|'[^']*?'|[^'">])*>/;
-          if (re.test(this.lastName)) {
-            return false;
-          }
-        },
-        message: "Confirm password content cannot be HTML",
-      },
-    ],
-  },
+  
 });
 const UserSignup = mongoose.model("UserSignup", userSignupSchema);
 module.exports = UserSignup;
