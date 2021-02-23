@@ -14,8 +14,8 @@ dotenv.config({ path: "./config.env" });
 const app = express();
 
 // Express Middlewares
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes import
